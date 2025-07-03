@@ -126,3 +126,16 @@ async def match_exercise_endpoint(request: dict):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/generate/workout")
+async def generate_workout_endpoint(request: dict):
+    """Generate a workout using AI based on constraints and overrides"""
+    from app.api.generate import GenerateWorkoutRequest, generate_workout
+
+    try:
+        workout_request = GenerateWorkoutRequest.model_validate(request)
+        result = await generate_workout(workout_request)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
