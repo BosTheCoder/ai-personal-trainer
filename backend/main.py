@@ -12,6 +12,8 @@ if database_path not in sys.path:
 
 from migrate import migrate_database  # noqa: E402
 
+from app.utils import match_exercise_template  # noqa: E402
+
 load_dotenv()
 
 app = FastAPI(title="AI Personal Trainer API", version="1.0.0")
@@ -65,3 +67,14 @@ async def get_prompt(name: str):
         )
 
     return {"name": name, "template": prompts[name]}
+
+
+@app.post("/exercise-templates/match")
+async def match_exercise_endpoint(request: dict):
+    """Match an exercise name to a Hevy template"""
+    try:
+        exercise_name = request.get("exercise_name", "")
+        result = await match_exercise_template(exercise_name)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
