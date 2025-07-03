@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 
 
@@ -23,9 +23,9 @@ class ExerciseTemplateRef(BaseModel):
 class Workout(BaseModel):
     """Represents a single workout session"""
 
-    id: str = Field(..., description="Unique identifier for the workout")
+    id: Optional[str] = Field(None, description="Unique identifier for the workout")
     date: datetime = Field(..., description="Date and time of the workout")
-    exercises: List[ExerciseTemplateRef] = Field(
+    exercises: List[dict] = Field(
         default_factory=list, description="List of exercises in the workout"
     )
 
@@ -33,10 +33,10 @@ class Workout(BaseModel):
 class WorkoutPlan(BaseModel):
     """Represents a complete workout plan spanning multiple weeks"""
 
-    id: str = Field(..., description="Unique identifier for the workout plan")
+    id: Optional[str] = Field(None, description="Unique identifier for the workout plan")
     start_date: datetime = Field(..., description="Start date of the workout plan")
     weeks: int = Field(..., ge=1, description="Number of weeks in the plan")
-    workouts: List[Workout] = Field(
+    workouts: List[dict] = Field(
         default_factory=list, description="List of workouts in the plan"
     )
 
@@ -45,7 +45,7 @@ class UserSettings(BaseModel):
     """User settings and preferences"""
 
     user_id: str = Field(..., description="Unique identifier for the user")
-    goals: List[Goal] = Field(
+    goals: List[str] = Field(
         default_factory=list, description="List of user's fitness goals"
     )
     api_keys: Dict[str, Any] = Field(
