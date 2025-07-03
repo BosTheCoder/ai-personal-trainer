@@ -46,7 +46,7 @@ def temp_db():
 
     db_module.connect_db = mock_connect
     backend_db_module.connect_db = mock_connect
-    
+
     db_module.init_db()
 
     yield temp_dir
