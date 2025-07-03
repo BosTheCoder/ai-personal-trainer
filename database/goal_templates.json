@@ -1,0 +1,176 @@
+{
+  "strength_training_template": {
+    "name": "Strength Training",
+    "description": "Build maximum strength and power through heavy resistance training",
+    "template_id": "strength_training_template",
+    "rep_range": {
+      "min": 1,
+      "max": 5,
+      "optimal": "1-5"
+    },
+    "sets": {
+      "min": 3,
+      "max": 5,
+      "optimal": "3-5"
+    },
+    "rest_periods": {
+      "seconds": "120-300",
+      "description": "2-5 minutes between sets for full recovery"
+    },
+    "intensity": {
+      "percentage_1rm": ">85%",
+      "description": "Heavy loads for maximum strength adaptation"
+    },
+    "periodization": {
+      "model": "Linear",
+      "description": "Progressive overload with gradual intensity increases",
+      "frequency": "3-4 times per week"
+    },
+    "training_focus": "Maximum strength, neural adaptations, power development"
+  },
+  "hypertrophy_template": {
+    "name": "Hypertrophy Training",
+    "description": "Build muscle mass through moderate intensity, higher volume training",
+    "template_id": "hypertrophy_template",
+    "rep_range": {
+      "min": 6,
+      "max": 12,
+      "optimal": "8-12"
+    },
+    "sets": {
+      "min": 3,
+      "max": 4,
+      "optimal": "3-4"
+    },
+    "rest_periods": {
+      "seconds": "30-90",
+      "description": "Moderate rest for metabolic stress and muscle growth"
+    },
+    "intensity": {
+      "percentage_1rm": "60-80%",
+      "description": "Moderate loads for optimal muscle building"
+    },
+    "periodization": {
+      "model": "Undulating",
+      "description": "Varied rep ranges and intensities for continuous adaptation",
+      "frequency": "4-6 times per week"
+    },
+    "training_focus": "Muscle hypertrophy, metabolic stress, muscle damage"
+  },
+  "power_training_template": {
+    "name": "Power Training",
+    "description": "Develop explosive strength and speed through dynamic movements",
+    "template_id": "power_training_template",
+    "rep_range": {
+      "min": 1,
+      "max": 5,
+      "optimal": "1-5"
+    },
+    "sets": {
+      "min": 3,
+      "max": 5,
+      "optimal": "3-5"
+    },
+    "rest_periods": {
+      "seconds": "120-300",
+      "description": "Full recovery between explosive efforts"
+    },
+    "intensity": {
+      "percentage_1rm": "30-60%",
+      "description": "Moderate loads moved explosively for power development"
+    },
+    "periodization": {
+      "model": "Block",
+      "description": "Concentrated blocks of power training with adequate recovery",
+      "frequency": "3-4 times per week"
+    },
+    "training_focus": "Explosive power, rate of force development, speed-strength"
+  },
+  "endurance_template": {
+    "name": "Muscular Endurance",
+    "description": "Improve muscle endurance and cardiovascular fitness",
+    "template_id": "endurance_template",
+    "rep_range": {
+      "min": 15,
+      "max": 25,
+      "optimal": "15-25+"
+    },
+    "sets": {
+      "min": 2,
+      "max": 3,
+      "optimal": "2-3"
+    },
+    "rest_periods": {
+      "seconds": "15-30",
+      "description": "Short rest to maintain elevated heart rate"
+    },
+    "intensity": {
+      "percentage_1rm": "<60%",
+      "description": "Light to moderate loads for endurance adaptations"
+    },
+    "periodization": {
+      "model": "Linear",
+      "description": "Progressive volume increases with consistent intensity",
+      "frequency": "4-6 times per week"
+    },
+    "training_focus": "Muscular endurance, cardiovascular fitness, metabolic conditioning"
+  },
+  "fat_loss_template": {
+    "name": "Fat Loss Training",
+    "description": "Optimize body composition through metabolic training",
+    "template_id": "fat_loss_template",
+    "rep_range": {
+      "min": 9,
+      "max": 15,
+      "optimal": "10-15"
+    },
+    "sets": {
+      "min": 2,
+      "max": 4,
+      "optimal": "3-4"
+    },
+    "rest_periods": {
+      "seconds": "30-60",
+      "description": "Short rest to maintain elevated heart rate and calorie burn"
+    },
+    "intensity": {
+      "percentage_1rm": "50-70%",
+      "description": "Moderate intensity for sustained metabolic demand"
+    },
+    "periodization": {
+      "model": "Circuit",
+      "description": "High volume, varied exercises with minimal rest",
+      "frequency": "4-6 times per week"
+    },
+    "training_focus": "Fat loss, metabolic conditioning, muscle preservation"
+  },
+  "general_fitness_template": {
+    "name": "General Fitness",
+    "description": "Well-rounded fitness development for overall health",
+    "template_id": "general_fitness_template",
+    "rep_range": {
+      "min": 8,
+      "max": 15,
+      "optimal": "8-15"
+    },
+    "sets": {
+      "min": 2,
+      "max": 3,
+      "optimal": "2-3"
+    },
+    "rest_periods": {
+      "seconds": "60-90",
+      "description": "Moderate rest for balanced training adaptation"
+    },
+    "intensity": {
+      "percentage_1rm": "60-75%",
+      "description": "Moderate intensity for general fitness improvements"
+    },
+    "periodization": {
+      "model": "Undulating",
+      "description": "Varied training stimuli for well-rounded fitness",
+      "frequency": "3-4 times per week"
+    },
+    "training_focus": "Overall fitness, strength, endurance, body composition"
+  }
+}

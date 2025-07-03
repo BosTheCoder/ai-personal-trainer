@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type, TypeVar
+from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
 
 from pydantic import BaseModel
 
@@ -579,3 +579,19 @@ def delete_hevy_sync_token(token_id: str) -> bool:
         return cursor.rowcount > 0
     finally:
         conn.close()
+
+
+def upsert_workout(data: Workout) -> Tuple[str, bool]:
+    """
+    Upsert a workout record (insert if new, update if exists).
+    Returns (workout_id, was_created) where was_created indicates if newly created.
+    """
+    init_db()
+    existing = get_workout(data.id) if data.id else None
+
+    if existing:
+        update_workout(data.id, data)
+        return data.id, False
+    else:
+        workout_id = create_workout(data)
+        return workout_id, True
