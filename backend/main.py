@@ -58,9 +58,10 @@ async def health():
 async def get_prompt(name: str):
     """Get a prompt template by name"""
     if name not in prompts:
+        available = list(prompts.keys())
         raise HTTPException(
             status_code=404,
-            detail=f"Prompt template '{name}' not found. Available prompts: {list(prompts.keys())}",
+            detail=f"Prompt template '{name}' not found. Available: {available}",
         )
 
     return {"name": name, "template": prompts[name]}
