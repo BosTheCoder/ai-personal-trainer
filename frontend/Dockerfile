@@ -14,4 +14,6 @@ RUN npm run build
 
 EXPOSE 3000
 
+ENV HOSTNAME=0.0.0.0
+
 CMD ["node", ".next/standalone/server.js"]
