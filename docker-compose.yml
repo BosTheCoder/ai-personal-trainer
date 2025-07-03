@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     networks:
       - ai-trainer-network
     depends_on:
