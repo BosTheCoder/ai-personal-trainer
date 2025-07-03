@@ -430,9 +430,13 @@ def create_workout_plan(data: WorkoutPlan) -> str:
     try:
         plan_id = data.id or str(uuid.uuid4())
         serialized_data = _serialize_data(data.model_dump())
+        execute_sql = """
+        INSERT INTO workoutplan
+        (id, start_date, weeks, workouts)
+        VALUES (?, ?, ?, ?)"""
 
         conn.execute(
-            "INSERT INTO workoutplan (id, start_date, weeks, workouts) VALUES (?, ?, ?, ?)",
+            execute_sql,
             (
                 plan_id,
                 serialized_data["start_date"],
@@ -469,7 +473,11 @@ def update_workout_plan(plan_id: str, data: WorkoutPlan) -> bool:
         serialized_data = _serialize_data(data.model_dump())
 
         cursor = conn.execute(
-            "UPDATE workoutplan SET start_date = ?, weeks = ?, workouts = ? WHERE id = ?",
+            """
+            UPDATE workoutplan
+            SET start_date = ?, weeks = ?, workouts = ?
+            WHERE id = ?
+            """,
             (
                 serialized_data["start_date"],
                 serialized_data["weeks"],
