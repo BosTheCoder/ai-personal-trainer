@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -33,7 +34,9 @@ class Workout(BaseModel):
 class WorkoutPlan(BaseModel):
     """Represents a complete workout plan spanning multiple weeks"""
 
-    id: Optional[str] = Field(None, description="Unique identifier for the workout plan")
+    id: Optional[str] = Field(
+        None, description="Unique identifier for the workout plan"
+    )
     start_date: datetime = Field(..., description="Start date of the workout plan")
     weeks: int = Field(..., ge=1, description="Number of weeks in the plan")
     workouts: List[dict] = Field(
