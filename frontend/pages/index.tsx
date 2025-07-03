@@ -11,7 +11,7 @@ export default function Home() {
           Your personalized fitness journey starts here
         </p>
       </div>
-      
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
         <div className="glass-panel" style={{ padding: '24px', borderRadius: '8px' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'white', marginBottom: '12px' }}>
@@ -21,7 +21,7 @@ export default function Home() {
             Get AI-generated workout plans tailored to your goals and equipment.
           </p>
         </div>
-        
+
         <div className="glass-panel" style={{ padding: '24px', borderRadius: '8px' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'white', marginBottom: '12px' }}>
             Progress Tracking
@@ -31,7 +31,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      
+
       <div className="glass-panel" style={{ padding: '24px', borderRadius: '8px' }}>
         <h3 style={{ fontSize: '1.125rem', fontWeight: '500', color: 'white', marginBottom: '8px' }}>
           Features
