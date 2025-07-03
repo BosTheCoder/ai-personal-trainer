@@ -19,9 +19,7 @@ class HevyClient:
             "Content-Type": "application/json",
         }
 
-    async def get_workouts(
-        self, page: int = 1, page_size: int = 10
-    ) -> Dict[str, Any]:
+    async def get_workouts(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """Get a paginated list of workouts."""
         async with httpx.AsyncClient() as client:
             response = await client.get(
@@ -45,9 +43,7 @@ class HevyClient:
             response.raise_for_status()
             return response.json()
 
-    async def post_routine(
-        self, routine_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def post_routine(self, routine_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new routine."""
         async with httpx.AsyncClient() as client:
             response = await client.post(
@@ -58,9 +54,7 @@ class HevyClient:
             response.raise_for_status()
             return response.json()
 
-    async def post_routine_folder(
-        self, folder_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def post_routine_folder(self, folder_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new routine folder."""
         async with httpx.AsyncClient() as client:
             response = await client.post(
