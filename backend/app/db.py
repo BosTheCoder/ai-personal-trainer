@@ -581,6 +581,46 @@ def delete_hevy_sync_token(token_id: str) -> bool:
         conn.close()
 
 
+def get_recent_workouts(days: int = 7) -> List[Workout]:
+    """
+    Get workouts from the last N days.
+
+    Args:
+        days: Number of days to look back
+
+    Returns:
+        List of Workout objects from the specified time period
+    """
+    from datetime import datetime, timedelta
+
+    cutoff_date = datetime.now() - timedelta(days=days)
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT id, date, exercises FROM workouts "
+            "WHERE date >= ? ORDER BY date DESC",
+            (cutoff_date.isoformat(),),
+        )
+
+        rows = cursor.fetchall()
+        workouts = []
+
+        for row in rows:
+            workout_id, date_str, exercises_json = row
+            date_obj = datetime.fromisoformat(date_str)
+            exercises = json.loads(exercises_json) if exercises_json else []
+
+            workouts.append(Workout(id=workout_id, date=date_obj, exercises=exercises))
+
+        return workouts
+
+    finally:
+        conn.close()
+
+
 def upsert_workout(data: Workout) -> Tuple[str, bool]:
     """
     Upsert a workout record (insert if new, update if exists).
