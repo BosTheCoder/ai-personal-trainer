@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 from typing import Dict
@@ -65,6 +66,10 @@ async def startup_event():
     migrate_database()
     load_prompts()
 
+    from app.services.sync_service import sync_service
+
+    asyncio.create_task(sync_service.start_background_sync())
+
 
 @app.get("/")
 async def root():
@@ -126,3 +131,33 @@ async def match_exercise_endpoint(request: dict):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/sync/hevy/trigger")
+async def trigger_hevy_sync():
+    """Manually trigger a Hevy sync operation for testing purposes."""
+    from app.services.sync_service import sync_service
+
+    if sync_service.is_running:
+        raise HTTPException(status_code=409, detail="Sync operation is already running")
+
+    try:
+        sync_service.is_running = True
+        result = await sync_service.run_sync()
+        return {"message": "Hevy sync completed", "result": result}
+    finally:
+        sync_service.is_running = False
+
+
+@app.get("/sync/hevy/status")
+async def get_hevy_sync_status():
+    """Get the status of the Hevy sync service."""
+    from app.services.sync_service import sync_service
+
+    return {
+        "is_running": sync_service.is_running,
+        "last_sync_time": sync_service.last_sync_time.isoformat()
+        if sync_service.last_sync_time
+        else None,
+        "sync_interval_hours": sync_service.sync_interval / 3600,
+    }
