@@ -4,9 +4,10 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # noqa: E402
+if os.path.join(os.path.dirname(__file__), "..") not in sys.path:
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from app.api.generate import (  # noqa: E402
+from app.api.generate import (
     GenerateWorkoutRequest,
     WorkoutConstraints,
     WorkoutOverrides,
@@ -289,7 +290,7 @@ class TestGenerateWorkout:
                         "name": "Test Exercise",
                     }
 
-                    await generate_workout(request)
+                    result = await generate_workout(request)
 
                     mock_send.assert_called_once()
                     call_args = mock_send.call_args
@@ -298,3 +299,4 @@ class TestGenerateWorkout:
                     assert "squat, bench press" in prompt_used
                     assert "deadlift" in prompt_used
                     assert "chest, legs" in prompt_used
+                    assert result is not None

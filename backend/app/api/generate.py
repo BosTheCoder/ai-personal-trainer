@@ -198,7 +198,7 @@ def _build_workout_prompt(
         if overrides.specific_exercises:
             exercises_list = ", ".join(overrides.specific_exercises)
             formatted_prompt += (
-                f"\n\nPlease include these specific exercises: {exercises_list}"
+                f"\n\nPlease include these specific exercises: " f"{exercises_list}"
             )
 
         if overrides.avoid_exercises:
