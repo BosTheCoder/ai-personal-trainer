@@ -33,10 +33,12 @@ This is a monorepo containing both frontend and backend components of the AI Per
 ### Development
 
 1. Clone the repository
-2. Set up frontend dependencies in `/frontend`
-3. Set up backend dependencies in `/backend`
-4. Configure database connection
-5. Run development servers
+2. Copy the environment template: `cp .env.example .env`
+3. Edit `.env` and populate with your actual values
+4. Set up frontend dependencies in `/frontend`
+5. Set up backend dependencies in `/backend`
+6. Configure database connection
+7. Run development servers
 
 ## License
 
