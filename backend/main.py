@@ -89,7 +89,6 @@ async def get_prompt(name: str):
     return {"name": name, "template": prompts[name]}
 
 
-
 @app.put("/prompts/{name}")
 async def update_prompt(name: str, prompt_data: PromptTemplate):
     """Update a prompt template by name"""
@@ -101,7 +100,6 @@ async def update_prompt(name: str, prompt_data: PromptTemplate):
             detail=f"URL name '{name}' does not match request body name "
             f"'{prompt_data.name}'",
         )
-
 
     prompts[name] = prompt_data.template
 
