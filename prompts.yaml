@@ -1,0 +1,28 @@
+single_workout: |
+  Create a single workout for a user with the following preferences:
+  - Goals: {goals}
+  - Available equipment: {equipment}
+  - Time available: {duration} minutes
+  - Fitness level: {fitness_level}
+
+  Please provide a detailed workout plan with exercises, sets, reps, and rest periods.
+
+plan_builder: |
+  Create a comprehensive {weeks}-week workout plan for a user with these specifications:
+  - Primary goals: {goals}
+  - Training days per week: {training_days}
+  - Available equipment: {equipment}
+  - Current fitness level: {fitness_level}
+  - Any limitations: {limitations}
+
+  Structure the plan with progressive overload and variety across the weeks.
+
+email_summary: |
+  Generate a weekly fitness summary email for {user_name}:
+  - Workouts completed this week: {workouts_completed}
+  - Total training time: {total_time} minutes
+  - Key achievements: {achievements}
+  - Areas for improvement: {improvements}
+  - Next week's focus: {next_week_focus}
+
+  Keep the tone motivational and encouraging.

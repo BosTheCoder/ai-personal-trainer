@@ -61,3 +61,13 @@ class HevySyncToken(BaseModel):
 
     access_token: str = Field(..., description="Access token for Hevy API")
     expires_at: datetime = Field(..., description="Token expiration timestamp")
+
+
+class PromptTemplate(BaseModel):
+    """Represents a prompt template"""
+
+    name: str = Field(..., description="Name of the prompt template")
+    template: str = Field(..., description="The template content with placeholders")
+
+    class Config:
+        extra = "forbid"
