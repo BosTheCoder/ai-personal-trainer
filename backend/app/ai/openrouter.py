@@ -6,9 +6,7 @@ import httpx
 from ..db import get_user_settings
 
 
-async def send_prompt(
-    prompt: str, variables: Dict[str, Any], user_id: str
-) -> str:
+async def send_prompt(prompt: str, variables: Dict[str, Any], user_id: str) -> str:
     """
     Send a prompt to OpenRouter API with variable substitution and retry logic.
 
@@ -71,7 +69,7 @@ async def send_prompt(
             except httpx.HTTPError:
                 if attempt == max_retries:
                     raise
-                delay = base_delay * (2 ** attempt)
+                delay = base_delay * (2**attempt)
                 await asyncio.sleep(delay)
 
     raise RuntimeError("Failed to get response after all retries")
