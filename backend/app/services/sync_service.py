@@ -5,7 +5,7 @@ import logging
 import os
 import sys
 from datetime import datetime
-from typing import Dict, Any
+from typing import Any, Dict
 
 scripts_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "scripts")
 sys.path.insert(0, scripts_path)
@@ -13,31 +13,37 @@ sys.path.insert(0, scripts_path)
 backend_path = os.path.join(os.path.dirname(__file__), "..", "..")
 sys.path.insert(0, backend_path)
 
-from ..clients.hevy_client import HevyClient
-from ..db import create_workout, get_workout, update_workout, get_recent_workouts
-from ..models import Workout
-from ..services.hevy_sync import push_workout_to_hevy
+from ..clients.hevy_client import HevyClient  # noqa: E402
+from ..db import (  # noqa: E402
+    create_workout,
+    get_recent_workouts,
+    get_workout,
+    update_workout,
+)
+from ..models import Workout  # noqa: E402
+from ..services.hevy_sync import push_workout_to_hevy  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
+
 class SyncService:
     """Service for managing Hevy synchronization operations."""
-    
+
     def __init__(self):
         self.is_running = False
         self.last_sync_time = None
         self.sync_interval = int(os.getenv("HEVY_SYNC_INTERVAL_HOURS", "6")) * 3600
-        
+
     async def run_sync(self) -> Dict[str, Any]:
         """
         Run a complete sync operation (pull from Hevy + push to Hevy).
-        
+
         Returns:
             Dictionary with sync results and timing information
         """
         start_time = datetime.now()
         logger.info(f"Starting Hevy sync at {start_time.isoformat()}")
-        
+
         result = {
             "start_time": start_time.isoformat(),
             "pull_success": False,
@@ -45,52 +51,58 @@ class SyncService:
             "pull_error": None,
             "push_error": None,
             "end_time": None,
-            "duration_seconds": None
+            "duration_seconds": None,
         }
-        
+
         try:
             logger.info("Starting Hevy pull operation...")
             await self._run_pull_operation()
             result["pull_success"] = True
             logger.info("Hevy pull operation completed successfully")
-            
+
         except Exception as e:
             result["pull_error"] = str(e)
             logger.error(f"Hevy pull operation failed: {e}")
-        
+
         try:
             logger.info("Starting Hevy push operation...")
             recent_workouts = get_recent_workouts(days=7)
             push_count = 0
-            
+
             for workout in recent_workouts:
                 try:
                     await push_workout_to_hevy(workout.id)
                     push_count += 1
                 except Exception as e:
                     logger.warning(f"Failed to push workout {workout.id}: {e}")
-            
+
             result["push_success"] = True
             result["pushed_workouts"] = push_count
-            logger.info(f"Hevy push operation completed successfully. Pushed {push_count} workouts")
-            
+            logger.info(
+                f"Hevy push operation completed successfully. "
+                f"Pushed {push_count} workouts"
+            )
+
         except Exception as e:
             result["push_error"] = str(e)
             logger.error(f"Hevy push operation failed: {e}")
-        
+
         end_time = datetime.now()
         result["end_time"] = end_time.isoformat()
         result["duration_seconds"] = (end_time - start_time).total_seconds()
-        
+
         self.last_sync_time = end_time
-        logger.info(f"Hevy sync completed at {end_time.isoformat()} (duration: {result['duration_seconds']:.2f}s)")
-        
+        logger.info(
+            f"Hevy sync completed at {end_time.isoformat()} "
+            f"(duration: {result['duration_seconds']:.2f}s)"
+        )
+
         return result
-    
+
     async def _run_pull_operation(self):
         """Run the Hevy pull operation (equivalent to pull_hevy.main())."""
         from datetime import datetime, timedelta, timezone
-        
+
         client = HevyClient()
         logger.info("Hevy client initialized successfully")
 
@@ -170,7 +182,9 @@ class SyncService:
         for exercise in hevy_workout.get("exercises", []):
             exercises.append(
                 {
-                    "name": exercise.get("exercise_template", {}).get("name", "Unknown"),
+                    "name": exercise.get("exercise_template", {}).get(
+                        "name", "Unknown"
+                    ),
                     "sets": exercise.get("sets", []),
                     "notes": exercise.get("notes", ""),
                 }
@@ -202,14 +216,18 @@ class SyncService:
 
     async def start_background_sync(self):
         """Start the background sync task that runs every sync_interval seconds."""
-        logger.info(f"Starting background Hevy sync task (interval: {self.sync_interval/3600:.1f} hours)")
-        
+        logger.info(
+            f"Starting background Hevy sync task "
+            f"(interval: {self.sync_interval/3600:.1f} hours)"
+        )
+
         while True:
             try:
                 await self.run_sync()
             except Exception as e:
                 logger.error(f"Background sync failed: {e}")
-            
+
             await asyncio.sleep(self.sync_interval)
+
 
 sync_service = SyncService()
