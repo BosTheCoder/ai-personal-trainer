@@ -1,18 +1,19 @@
-import sys
 import os
+import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "backend"))
 
-import pytest  # noqa: E402
 from datetime import datetime, timezone  # noqa: E402
 
+import pytest  # noqa: E402
+
 from app.models import (  # noqa: E402
-    Goal,
     ExerciseTemplateRef,
+    Goal,
+    HevySyncToken,
+    UserSettings,
     Workout,
     WorkoutPlan,
-    UserSettings,
-    HevySyncToken,
 )
 
 
@@ -274,9 +275,7 @@ class TestModelIntegration:
 
         workout = Workout(id="workout_1", date=workout_date, exercises=exercises)
 
-        WorkoutPlan(
-            id="plan_1", start_date=start_date, weeks=12, workouts=[workout]
-        )
+        WorkoutPlan(id="plan_1", start_date=start_date, weeks=12, workouts=[workout])
 
         goals = [
             Goal(name="Weight Loss", description="Lose 10 pounds", template_id="t1"),
