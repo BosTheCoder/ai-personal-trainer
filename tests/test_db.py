@@ -286,9 +286,8 @@ def test_hevy_sync_token_crud(temp_db):
 
 def test_database_initialization(temp_db):
     """Test that database tables are created properly."""
-    init_db()
-    
-    conn = connect_db()
+    import backend.app.db as db_module
+    conn = db_module.connect_db()
     try:
         cursor = conn.cursor()
         
