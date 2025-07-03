@@ -29,7 +29,7 @@
     "training_focus": "Maximum strength, neural adaptations, power development"
   },
   "hypertrophy_template": {
-    "name": "Hypertrophy Training", 
+    "name": "Hypertrophy Training",
     "description": "Build muscle mass through moderate intensity, higher volume training",
     "template_id": "hypertrophy_template",
     "rep_range": {
@@ -60,7 +60,7 @@
   "power_training_template": {
     "name": "Power Training",
     "description": "Develop explosive strength and speed through dynamic movements",
-    "template_id": "power_training_template", 
+    "template_id": "power_training_template",
     "rep_range": {
       "min": 1,
       "max": 5,
