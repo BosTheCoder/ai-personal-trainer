@@ -6,6 +6,8 @@ import yaml
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 
+from app.models import PromptTemplate
+
 database_path = os.path.join(os.path.dirname(__file__), "..", "database")
 if database_path not in sys.path:
     sys.path.append(database_path)
@@ -38,6 +40,24 @@ def load_prompts():
         print(f"Error parsing prompts.yaml: {e}")
 
 
+def save_prompts():
+    """Save prompt templates to prompts.yaml file"""
+    prompts_file = os.path.join(os.path.dirname(__file__), "..", "prompts.yaml")
+
+    try:
+        temp_file = prompts_file + ".tmp"
+        with open(temp_file, "w", encoding="utf-8") as file:
+            yaml.safe_dump(prompts, file, default_flow_style=False, allow_unicode=True)
+
+        os.replace(temp_file, prompts_file)
+        print(f"Saved {len(prompts)} prompt templates to {prompts_file}")
+    except Exception as e:
+        temp_file = prompts_file + ".tmp"
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
+        raise e
+
+
 @app.on_event("startup")
 async def startup_event():
     migrate_database()
@@ -65,3 +85,31 @@ async def get_prompt(name: str):
         )
 
     return {"name": name, "template": prompts[name]}
+
+
+@app.put("/prompts/{name}")
+async def update_prompt(name: str, prompt_data: PromptTemplate):
+    """Update a prompt template by name"""
+    global prompts
+
+    if name != prompt_data.name:
+        raise HTTPException(
+            status_code=400,
+            detail=f"URL name '{name}' does not match request body name "
+            f"'{prompt_data.name}'",
+        )
+
+    prompts[name] = prompt_data.template
+
+    try:
+        save_prompts()
+        return {
+            "name": name,
+            "template": prompt_data.template,
+            "message": "Prompt updated successfully",
+        }
+    except Exception as e:
+        load_prompts()
+        raise HTTPException(
+            status_code=500, detail=f"Failed to save prompt to file: {str(e)}"
+        )
