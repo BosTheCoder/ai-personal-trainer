@@ -1,8 +1,3 @@
-"""
-AI Personal Trainer Backend
-FastAPI application placeholder
-"""
-
 from fastapi import FastAPI
 
 app = FastAPI(title="AI Personal Trainer API", version="1.0.0")
