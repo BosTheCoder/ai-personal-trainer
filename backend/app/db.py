@@ -361,6 +361,22 @@ def delete_exercise_template_ref(template_id: str) -> bool:
         conn.close()
 
 
+def get_exercise_templates() -> List[ExerciseTemplateRef]:
+    """Get all ExerciseTemplateRef records."""
+    init_db()
+    conn = connect_db()
+    try:
+        cursor = conn.execute("SELECT * FROM exercisetemplateref")
+        rows = cursor.fetchall()
+        templates = []
+        for row in rows:
+            data = _deserialize_data(dict(row), ExerciseTemplateRef)
+            templates.append(ExerciseTemplateRef.model_validate(data))
+        return templates
+    finally:
+        conn.close()
+
+
 def create_workout(data: Workout) -> str:
     """Create a new Workout record."""
     init_db()
