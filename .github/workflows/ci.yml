@@ -86,14 +86,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
     - name: Build and start services
       run: |
-        docker-compose up --build -d
+        docker compose up --build -d
 
     - name: Wait for services to be healthy
       run: |
         echo "Waiting for services to be healthy..."
-        timeout 300 bash -c 'until docker-compose ps | grep -q "healthy"; do sleep 5; done'
+        timeout 300 bash -c 'until docker compose ps | grep -q "healthy"; do sleep 5; done'
 
     - name: Verify frontend health
       run: |
@@ -106,9 +109,9 @@ jobs:
     - name: Show service logs on failure
       if: failure()
       run: |
-        docker-compose logs
+        docker compose logs
 
     - name: Cleanup
       if: always()
       run: |
-        docker-compose down -v
+        docker compose down -v
